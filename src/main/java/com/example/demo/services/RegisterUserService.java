@@ -4,7 +4,6 @@ import com.example.demo.entity.Cadastro;
 import com.example.demo.entity.User;
 import com.example.demo.exceptions.UserNamePassowordException;
 import com.example.demo.repositories.UserRespository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,10 +16,10 @@ public class RegisterUserService {
     }
 
     public User register(Cadastro cadastro) throws UserNamePassowordException {
+
         User user = new User(cadastro.getName(), cadastro.getPassword());
         this.repository.save(user);
 
         return user;
     }
-
 }
