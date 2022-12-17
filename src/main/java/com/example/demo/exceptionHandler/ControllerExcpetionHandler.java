@@ -1,5 +1,6 @@
 package com.example.demo.exceptionHandler;
 
+import com.example.demo.exceptions.TaskNotFoundException;
 import com.example.demo.exceptions.UserNamePassowordException;
 import com.example.demo.exceptions.UserNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,11 @@ public class ControllerExcpetionHandler {
 
     @ExceptionHandler(value = UserNamePassowordException.class)
     public ResponseEntity userNamePasswordHandler(UserNamePassowordException exception, WebRequest request) {
+        return new ResponseEntity(exception.getReason(), exception.getStatus());
+    }
+
+    @ExceptionHandler(value = TaskNotFoundException.class)
+    public ResponseEntity taskNotFoundHandler(TaskNotFoundException exception, WebRequest request) {
         return new ResponseEntity(exception.getReason(), exception.getStatus());
     }
 

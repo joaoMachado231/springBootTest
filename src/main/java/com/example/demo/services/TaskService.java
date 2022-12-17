@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.dto.TaskRequest;
 import com.example.demo.entity.Task;
 import com.example.demo.entity.User;
+import com.example.demo.exceptions.TaskNotFoundException;
 import com.example.demo.exceptions.UserNotFoundException;
 import com.example.demo.repositories.TaskRepository;
 import com.example.demo.repositories.UserRespository;
@@ -39,6 +40,12 @@ public class TaskService {
         return user.getTaskList();
     }
 
+    public void deleteTask(int taskId) {
+        Task task = this.findTask(taskId);
+
+        this.taskRepository.delete(task);
+    }
+
     private User findUser(int userId) {
         Optional<User> userOptional = userRespository.findById(userId);
 
@@ -47,5 +54,15 @@ public class TaskService {
         }
 
         return userOptional.get();
+    }
+
+    private Task findTask(int taskId) {
+        Optional<Task> taskOptional = this.taskRepository.findById(taskId);
+
+        if(!taskOptional.isPresent()) {
+            throw new TaskNotFoundException();
+        }
+
+        return taskOptional.get();
     }
 }
