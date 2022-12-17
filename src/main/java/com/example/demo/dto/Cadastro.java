@@ -1,6 +1,9 @@
 package com.example.demo.dto;
 
+import com.sun.istack.NotNull;
+
 public class Cadastro {
+
     private String name;
 
     private String password;
