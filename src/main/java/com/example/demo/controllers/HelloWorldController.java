@@ -1,10 +1,9 @@
-package com.example.demo;
+package com.example.demo.controllers;
 
-import com.example.demo.entity.Cadastro;
+import com.example.demo.dto.Cadastro;
 import com.example.demo.entity.User;
 import com.example.demo.exceptions.UserNamePassowordException;
-import com.example.demo.services.ListUserService;
-import com.example.demo.services.RegisterUserService;
+import com.example.demo.services.UserService;
 import com.sun.istack.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +14,11 @@ import java.util.List;
 @RestController
 @RequestMapping
 public class HelloWorldController {
-    private final RegisterUserService registerUserService;
+    private final UserService userService;
 
-    private final ListUserService listUserService;
 
-    public HelloWorldController(RegisterUserService registerUserService, ListUserService listUserService) {
-        this.registerUserService = registerUserService;
-        this.listUserService = listUserService;
+    public HelloWorldController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -36,14 +33,14 @@ public class HelloWorldController {
 
     @GetMapping("/listar")
     public ResponseEntity<List<User>> listarUsuarios() {
-        List<User> users = this.listUserService.listUsers();
+        List<User> users = this.userService.listUsers();
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 
     @PostMapping("/cadastrar")
     public ResponseEntity<User> cadastrar(@RequestBody @NotNull final Cadastro cadastro) {
         try {
-            User user = this.registerUserService.register(cadastro);
+            User user = this.userService.register(cadastro);
             return new ResponseEntity<User>(user, HttpStatus.OK);
         } catch (UserNamePassowordException exception) {
             throw exception;
